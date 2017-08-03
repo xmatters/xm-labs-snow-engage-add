@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2017-08-01 13:45:56">
+<sys_remote_update_set action="INSERT_OR_UPDATE">
+<application display_value="xMatters">5950d7444f2231000e9fa88ca310c78c</application>
+<application_name>xMatters</application_name>
+<application_scope>x_xma_xmatters</application_scope>
+<application_version>3.7.12</application_version>
+<collisions/>
+<commit_date/>
+<deleted/>
+<description/>
+<inserted/>
+<name>Engage with xMatters - Add to Call</name>
+<origin_sys_id/>
+<release_date/>
+<remote_sys_id>20a54f2ddb100300a0ea771c8c961978</remote_sys_id>
+<state>loaded</state>
+<summary/>
+<sys_class_name>sys_remote_update_set</sys_class_name>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-08-01 13:45:55</sys_created_on>
+<sys_id>990b4f31db180300a0ea771c8c9619f4</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-08-01 13:45:55</sys_updated_on>
+<update_set display_value=""/>
+<update_source display_value=""/>
+<updated/>
+</sys_remote_update_set>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="xMatters">5950d7444f2231000e9fa88ca310c78c</application>
+<category>customer</category>
+<comments/>
+<name>sys_ui_script_d7e030024f6c220078bae321a310c799</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_ui_script"&gt;&lt;sys_ui_script action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;description/&gt;&lt;global&gt;false&lt;/global&gt;&lt;name&gt;x_xma_xmatters.xm_mod_options_provider&lt;/name&gt;&lt;script&gt;&lt;![CDATA[angular.module('xm.options-provider', [ 'xm.glide-ajax' ])
+    .service('OptionsProvider', function ( GlideAjax ) {
+		var optionsProvider = {};
+	
+        var options = {
+            conference_bridges: [],
+            send_priorities: []
+        };
+
+        var buildValue = function( value, translationPrefix ) {
+            return {
+                value: value,
+                label: (translationPrefix) ? translationPrefix + '.' + value : value
+            };
+        };	
+	
+		optionsProvider.getOptions = function( sys_id ) {
+			options.conference_bridges.push( buildValue('None', 'ENGAGE_XM.OPTIONS.CONFERENCE_BRIDGE') );
+			options.conference_bridges.push( buildValue('Hosted', 'ENGAGE_XM.OPTIONS.CONFERENCE_BRIDGE') );
+
+			options.send_priorities.push( buildValue('low', 'ENGAGE_XM.OPTIONS.SEND_PRIORITY') );
+			options.send_priorities.push( buildValue('medium', 'ENGAGE_XM.OPTIONS.SEND_PRIORITY') );
+			options.send_priorities.push( buildValue('high', 'ENGAGE_XM.OPTIONS.SEND_PRIORITY') );
+
+			var retrieveBridges = new GlideAjax( 'xMattersAjaxEngage' );
+			retrieveBridges.addParam( 'sysparm_name', 'getExternalConferenceBridges' );
+			retrieveBridges.send().then( function( resp ){
+				console.log( resp );
+				if( resp.success ) {
+					var confBridges = resp.data.split( ';' );
+					for( var i = 0; i &lt; confBridges.length; i++ ) {
+						if( confBridges[i].trim().length &gt; 0 ) {
+							options.conference_bridges.push( buildValue( confBridges[i].trim() ) );
+						}
+					}
+				} else {
+					console.log( resp );
+				}
+			} );
+			
+			var ga = new GlideAjax( 'xMattersAjaxExtended' );
+			ga.addParam( 'sysparm_name', 'getOpenConferenceBridges' );
+			ga.addParam( 'sys_id', sys_id );
+			ga.send().then( function( resp ) {
+				if( resp.success ) {
+					for( var i = 0; i &lt; resp.data.length; i++ ) {
+						options.conference_bridges.push( buildValue( resp.data[i] ) );
+					}
+				} else {
+					console.log( resp.error);
+				}
+			} ).catch( function( resp ){
+				console.log( resp );
+			} );	
+			
+			return options;
+		};
+
+        return optionsProvider;
+    });
+]]&gt;&lt;/script&gt;&lt;script_name&gt;xm_mod_options_provider&lt;/script_name&gt;&lt;sys_class_name&gt;sys_ui_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2016-07-12 15:04:39&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_id&gt;d7e030024f6c220078bae321a310c799&lt;/sys_id&gt;&lt;sys_mod_count&gt;12&lt;/sys_mod_count&gt;&lt;sys_name&gt;x_xma_xmatters.xm_mod_options_provider&lt;/sys_name&gt;&lt;sys_package display_value="xMatters" source="x_xma_xmatters"&gt;5950d7444f2231000e9fa88ca310c78c&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="xMatters"&gt;5950d7444f2231000e9fa88ca310c78c&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_script_d7e030024f6c220078bae321a310c799&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2017-08-01 00:03:16&lt;/sys_updated_on&gt;&lt;use_scoped_format&gt;false&lt;/use_scoped_format&gt;&lt;/sys_ui_script&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="Engage with xMatters - Add to Call">990b4f31db180300a0ea771c8c9619f4</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-08-01 13:45:55</sys_created_on>
+<sys_id>150b4f31db180300a0ea771c8c9619f5</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-08-01 13:45:55</sys_updated_on>
+<table/>
+<target_name>x_xma_xmatters.xm_mod_options_provider</target_name>
+<type>UI Script</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="xMatters">5950d7444f2231000e9fa88ca310c78c</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_19ca8b31db180300a0ea771c8c96193e</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_xma_xmatters.xMattersAjaxExtended&lt;/api_name&gt;&lt;client_callable&gt;true&lt;/client_callable&gt;&lt;description/&gt;&lt;name&gt;xMattersAjaxExtended&lt;/name&gt;&lt;script&gt;&lt;![CDATA[gs.include("xMattersConfig");
+gs.include("xMattersDataHelper");
+
+var xMattersAjaxExtended = Class.create();
+xMattersAjaxExtended.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+
+	getOpenConferenceBridges: function(){
+		var response;
+		var opts;
+		var openBridges = [];
+		var processedBridges = {};
+		try {
+			var json = new global.JSON();	
+			var sys_id = this.getParameter( 'sys_id' );
+			opts = {
+				"method": "GET",
+				"path": "/api/xm/1/events?propertyName=sys_id%23en&amp;propertyValue=" + sys_id
+			};	
+			var dataHelper = new xMattersDataHelper();
+			var apiResp = dataHelper.sendRequest( opts );
+			if( apiResp.status &gt;= 200 &amp;&amp; apiResp.status &lt; 300 ) {	
+				var events = json.decode(apiResp.body).data;
+				for (var i = 0; i &lt; events.length; i++) {
+					var event = events[i];
+					if (event.conference == null) {
+						continue;
+					}
+					thisBridge = event.conference.bridgeId;
+					if (processedBridges[thisBridge] != null) {
+						//already processed this bridge
+						continue;
+					}
+					processedBridges[thisBridge] = true;
+					opts = {
+						"method": "GET",
+						"path": event.conference.links.self
+					};
+					apiResp = dataHelper.sendRequest( opts );
+					if( apiResp.status &gt;= 200 &amp;&amp; apiResp.status &lt; 300 ) {
+						var bridge = json.decode(apiResp.body);
+						if (bridge.status != "INACTIVE") {
+							openBridges.push(thisBridge);
+						}
+					}
+				
+				}
+				
+				response = {
+					success: true,
+					data: openBridges
+				};
+			} else {
+				response = {
+					success: false,
+					api_response: apiResp,
+					error: 'The call to xMatters was unsuccessful'
+				};
+			}
+		} catch( e ) {
+			response = {
+				success: false,
+				opts: opts,
+				error: String( e )
+			};
+		}
+		return new global.JSON().encode( response );
+	},
+	
+    type: 'xMattersAjaxExtended'
+});]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2017-08-01 13:45:25&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_id&gt;19ca8b31db180300a0ea771c8c96193e&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;xMattersAjaxExtended&lt;/sys_name&gt;&lt;sys_package display_value="xMatters" source="x_xma_xmatters"&gt;5950d7444f2231000e9fa88ca310c78c&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="xMatters"&gt;5950d7444f2231000e9fa88ca310c78c&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_19ca8b31db180300a0ea771c8c96193e&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2017-08-01 13:45:25&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="Engage with xMatters - Add to Call">990b4f31db180300a0ea771c8c9619f4</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-08-01 13:45:55</sys_created_on>
+<sys_id>510b4f31db180300a0ea771c8c9619f5</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-08-01 13:45:55</sys_updated_on>
+<table/>
+<target_name>xMattersAjaxExtended</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="xMatters">5950d7444f2231000e9fa88ca310c78c</application>
+<category>customer</category>
+<comments/>
+<name>sys_ui_script_e4c0f8824f6c220078bae321a310c7b6</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_ui_script"&gt;&lt;sys_ui_script action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;description/&gt;&lt;global&gt;false&lt;/global&gt;&lt;name&gt;x_xma_xmatters.xm_app_engage_xmatters&lt;/name&gt;&lt;script&gt;&lt;![CDATA[var engageApp = angular.module('xm.engage-xm', [ 'ngTagsInput', 'ngMessages', 'pascalprecht.translate', 'xm.xmatters-service', 'xm.location-service', 'xm.options-provider', 'xm.glide-ajax' ]);
+ // Global configuration for ng tags input module 
+engageApp.config(function(tagsInputConfigProvider) {
+	tagsInputConfigProvider.setDefaults('tagsInput', {
+		placeholder: 'Find Recipients',
+		replaceSpacesWithDashes: false,
+		addFromAutocompleteOnly: true,
+		displayProperty: 'name',
+		keyProperty	: 'targetName'
+	}).setDefaults('autoComplete', {
+		displayProperty: 'name',
+		minLength: 2
+	});
+});
+// Configuration for translations
+engageApp.config(function ($translateProvider) {
+  $translateProvider.translations('en', {
+  	ENGAGE_XM: {
+  		TITLE: 'Engage with xMatters',
+  		LABEL: {
+  			RECIPIENTS: 'Recipients',
+  			SEND_PRIORITY: 'Priority',
+  			CONFERENCE_BRIDGE: 'Conference Bridge',
+  			SUBJECT: 'Subject',
+  			MESSAGE: 'Message'
+  		},
+  		BUTTON: {
+  			SUBMIT: 'Submit',
+  			VIEW_RECORD: 'View Record'
+  		},
+  		ERROR: {
+  			REQUIRED: 'Required field',
+  			MAX_LENGTH: 'Maximum length {{max_length}} characters'
+  		},
+  		MESSAGE: {
+  			SUCCESS: 'Your request has been submitted successfully. To track the progress of this request in ServiceNow, view the Engage with xMatters record.'
+  		},
+  		OPTIONS: {
+  			CONFERENCE_BRIDGE: {
+  				"None": '-- None --',
+  				"Hosted": 'xMatters Hosted'
+  			},
+  			SEND_PRIORITY: {
+  				"low": 'Low',
+  				"medium": 'Medium',
+  				"high": 'High'
+  			},
+  			RECIPIENT_TYPE: {
+  				"people": "People",
+  				"groups": "Groups"
+  			}
+  		}
+  	}
+  });
+  $translateProvider.preferredLanguage('en');
+});
+engageApp.controller('engageCtlr', 
+	function($scope, $translate, XMService, LocationService, OptionsProvider, GlideAjax) {
+		 // Core scope variables 
+		$scope.is_finished = false; 
+		$scope.is_invalid = false;
+		$scope.global_errors = [];
+
+		 // form model scope variables and default values 
+		$scope.subject = '';
+		$scope.message = '';
+		$scope.recipients = [];
+		$scope.conference_bridge = 'None';
+		$scope.send_priority = 'medium';
+
+		 // result scope variable 
+		$scope.engage_url = '';
+
+		 // behind the scenes scope variables used for options/state 
+		$scope.xm_search_state = XMService.searchState;
+		$scope.recipientTypes = [ 
+			{
+				"label": "ENGAGE_XM.OPTIONS.RECIPIENT_TYPE.people",
+				"typeahead": XMService.searchPeople
+			}, 
+			{
+				"label": "ENGAGE_XM.OPTIONS.RECIPIENT_TYPE.groups",
+				"typeahead": XMService.searchGroups
+			} 
+		]; 
+		$scope.activeRecipientType = $scope.recipientTypes[0];
+
+		// Set the incident id scope variable based on search parameters in the url 
+		$scope.incident_id = LocationService.searchParams.incident_id;
+		if( typeof $scope.incident_id === 'undefined' || $scope.incident_id === null || $scope.incident_id === '' ) {
+			console.log( 'No incident identifier was defined' );
+			$scope.global_errors.push( 'Missing "incident_id" parameter: A valid ServiceNow Incident system id must be set to continue' );
+		}
+
+		var options = OptionsProvider.getOptions($scope.incident_id);
+		$scope.send_priority_options = options.send_priorities;
+		$scope.conference_bridge_options = options.conference_bridges;
+
+		/**
+		 * Changes the active recipient type based on the input group action dropdown selection
+		 * 
+		 * @param  {Integer} selectedType 
+		 *         index of the selected recipient option
+		 */
+		$scope.selectRecipientType = function( selectedIndex ) {
+			$scope.activeRecipientType = $scope.recipientTypes[selectedIndex];
+		};
+
+		/**
+		 * Submits the engageXMForm form, and if valid, tries to create a new Engage with xMatters record via
+		 * the xMattersAjaxEngage client callable script include.
+		 */
+		$scope.submit = function() {
+			$scope.engageXMForm.$setSubmitted( true );
+			if( $scope.engageXMForm.$invalid ) {
+				console.log( 'The form will not be submitted in an invalid state' );
+				console.log( $scope.engageXMForm );
+			} else {
+				var recipientTargets = [];
+				for( var i = 0; i &lt; $scope.recipients.length; i++ ) {
+					recipientTargets.push( $scope.recipients[i].targetName );
+				}
+				var formData = {
+					"recipients": recipientTargets.join( ',' ),
+					"subject": $scope.subject,
+					"message": $scope.message,
+					"conference_bridge": $scope.conference_bridge,
+					"incident_id": $scope.incident_id,
+					"send_priority": $scope.send_priority
+				};
+				var ga = new GlideAjax( 'xMattersAjaxEngage' );
+				ga.addParam( 'sysparm_name', 'submitEngageWithXMatters' );
+				ga.addParam( 'form_data', JSON.stringify( formData ) );
+				ga.send().then( function( resp ) {
+					if( resp.success ) {
+						$scope.is_finished = true;
+						$scope.engage_url = '/nav_to.do?uri=x_xma_xmatters_engage_with_xmatters.do?sys_id=' + resp.data.sys_id;
+					} else {
+						console.log( resp );
+					}
+				} ).catch( function( resp ){
+					console.log( resp );
+				} );
+			}
+		};
+	} );]]&gt;&lt;/script&gt;&lt;script_name&gt;xm_app_engage_xmatters&lt;/script_name&gt;&lt;sys_class_name&gt;sys_ui_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2016-07-12 15:03:56&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_id&gt;e4c0f8824f6c220078bae321a310c7b6&lt;/sys_id&gt;&lt;sys_mod_count&gt;7&lt;/sys_mod_count&gt;&lt;sys_name&gt;x_xma_xmatters.xm_app_engage_xmatters&lt;/sys_name&gt;&lt;sys_package display_value="xMatters" source="x_xma_xmatters"&gt;5950d7444f2231000e9fa88ca310c78c&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="xMatters"&gt;5950d7444f2231000e9fa88ca310c78c&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_script_e4c0f8824f6c220078bae321a310c7b6&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2017-08-01 00:05:21&lt;/sys_updated_on&gt;&lt;use_scoped_format&gt;false&lt;/use_scoped_format&gt;&lt;/sys_ui_script&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="Engage with xMatters - Add to Call">990b4f31db180300a0ea771c8c9619f4</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2017-08-01 13:45:55</sys_created_on>
+<sys_id>d50b4f31db180300a0ea771c8c9619f5</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2017-08-01 13:45:55</sys_updated_on>
+<table/>
+<target_name>x_xma_xmatters.xm_app_engage_xmatters</target_name>
+<type>UI Script</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+</unload>
