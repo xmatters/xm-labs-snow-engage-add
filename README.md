@@ -7,6 +7,15 @@ The [xMatters integration for ServiceNow](https://store.servicenow.com/sn_appsto
   <img src="media/ConferenceBridge.png" width="400">
 </kbd>
 
+---------
+
+<kbd>
+  <img src="https://github.com/xmatters/xMatters-Labs/raw/master/media/disclaimer.png">
+</kbd>
+
+---------
+
+
 # Pre-Requisites
 * ServiceNow Geneva or later
 * ServiceNow integration to [xMatters v3.7.11+](https://store.servicenow.com/sn_appstore_store.do#!/store/application/5950d7444f2231000e9fa88ca310c78c/3.7.12)
